@@ -1,0 +1,31 @@
+# All text files should have normalized line endings
+* text=auto
+
+# Shell scripts (Unix) should always use LF
+*.sh text eol=lf
+
+# Windows batch scripts should always use CRLF
+*.cmd text eol=crlf
+
+# Java source files should use LF
+*.java text eol=lf
+
+# Properties, XML, YAML, JSON files
+*.properties text eol=lf
+*.xml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+# Ignore binary files for line-ending conversion
+*.jar binary
+*.war binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+/mvnw text eol=lf
+*.cmd text eol=crlf
+
