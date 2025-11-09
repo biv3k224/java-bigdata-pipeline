@@ -98,8 +98,8 @@ Push and open a Pull Request
 Licensed under the MIT License.
 
 👨‍💻 Author
-Your Name
-GitHub: @yourusername
-LinkedIn: Your LinkedIn
+Bibek Kumar Tamang
+GitHub: biv3k224
+LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/btamang/)
 
 ⭐ If you like this project, give it a star!
