@@ -8,14 +8,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface EventRepository extends MongoRepository<EventDocument, String>{
-	
-	//find events by source
-	List<EventDocument> findBySource(String source);
-
-	//find events by event type
-	List<EventDocument> findByEventType(String eventType);
-	
-	// Find events within time range
-	List<EventDocument> findByTimestampBetween(LocalDateTime start, LocalDateTime end);
+public interface EventRepository extends MongoRepository<EventDocument, String> {
+    
+    // Find events by source
+    List<EventDocument> findBySource(String source);
+    
+    // Find events by event type
+    List<EventDocument> findByEventType(String eventType);
+    
+    // Find events within time range
+    List<EventDocument> findByTimestampBetween(LocalDateTime start, LocalDateTime end);
+    
+    void deleteAll();
 }

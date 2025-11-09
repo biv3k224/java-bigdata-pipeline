@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Big Data Pipeline Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚀 Big Data Pipeline Dashboard</h1>
+            <p>Real-time Event Processing & Analytics</p>
+        </div>
+
+        <!-- Alert Messages -->
+        <div id="alertContainer"></div>
+
+        <div class="dashboard-grid">
+            <!-- Statistics Card -->
+            <div class="card stat-card">
+                <h3>📈 Total Events Processed</h3>
+                <div class="stat-number" th:text="${totalEvents}">0</div>
+                <p>Events in the system</p>
+            </div>
+
+            <!-- Events by Source Chart -->
+            <div class="card">
+                <h3>📊 Events by Source</h3>
+                <div class="chart-container">
+                    <canvas id="sourceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Events by Type Chart -->
+            <div class="card">
+                <h3>🎯 Events by Type</h3>
+                <div class="chart-container">
+                    <canvas id="typeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Send Event Form -->
+            <div class="card">
+                <h3>🚀 Send Test Event</h3>
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label>Source:</label>
+                        <select name="source" id="sourceSelect" required>
+                            <option value="website">Website</option>
+                            <option value="mobile-app">Mobile App</option>
+                            <option value="sensor-1">Sensor 1</option>
+                            <option value="api-server">API Server</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Event Type:</label>
+                        <select name="eventType" id="eventTypeSelect" required>
+                            <option value="PAGE_VIEW">Page View</option>
+                            <option value="USER_LOGIN">User Login</option>
+                            <option value="PURCHASE">Purchase</option>
+                            <option value="SEARCH">Search</option>
+                            <option value="ERROR">Error</option>
+                            <option value="SENSOR_READING">Sensor Reading</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Payload Data (JSON):</label>
+                        <textarea name="payload" id="payloadTextarea" required 
+                                 placeholder='{"userId": "user123", "page": "/home"}'>{"userId": "test-user", "action": "test"}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">
+                        📨 Send Event
+                    </button>
+                </form>
+            </div>
+
+            <!-- Recent Events -->
+            <div class="card">
+                <h3>🕒 Recent Events</h3>
+                <div class="filter-controls">
+                    <select id="sourceFilter">
+                        <option value="all">All Sources</option>
+                        <option value="website">Website</option>
+                        <option value="mobile-app">Mobile App</option>
+                        <option value="sensor-1">Sensor</option>
+                    </select>
+                    <select id="typeFilter">
+                        <option value="all">All Types</option>
+                        <option value="PAGE_VIEW">Page Views</option>
+                        <option value="USER_LOGIN">Logins</option>
+                        <option value="PURCHASE">Purchases</option>
+                    </select>
+                    <button onclick="clearFilters()" class="btn-secondary">Clear</button>
+                </div>
+                <div id="eventsList" class="events-list">
+                    <!-- Events will be loaded here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="card">
+                <h3>🛠️ System Status</h3>
+                <div class="status-grid" id="statusGrid">
+                    <!-- Status will be loaded here by JavaScript -->
+                </div>
+                <div class="health-check">
+                    <button onclick="checkSystemHealth()" class="btn-primary">Check System Health</button>
+                    <div id="healthStatus"></div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card api-section">
+                <h3>🔗 Quick Actions</h3>
+                <div class="action-buttons">
+                    <button onclick="loadSampleEvents()" class="btn-secondary">Load Sample Data</button>
+                    <button onclick="clearAllEvents()" class="btn-danger">Clear All Events</button>
+                    <button onclick="exportEvents()" class="btn-secondary">Export Events</button>
+                </div>
+                <div class="api-endpoints">
+                    <h4>API Endpoints:</h4>
+                    <div class="api-endpoint" onclick="copyToClipboard('GET /api/v1/events/health')">
+                        GET /api/v1/events/health
+                    </div>
+                    <div class="api-endpoint" onclick="copyToClipboard('POST /api/v1/events/ingest')">
+                        POST /api/v1/events/ingest
+                    </div>
+                    <div class="api-endpoint" onclick="copyToClipboard('GET /api/v1/events/all')">
+                        GET /api/v1/events/all
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button onclick="refreshDashboard()" class="btn-primary">🔄 Refresh Dashboard</button>
+            <label class="auto-refresh">
+                <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()">
+                Auto-refresh every 10 seconds
+            </label>
+        </div>
+
+        <div class="last-updated">
+            Last updated: <span id="lastUpdated" th:text="${#temporals.format(lastUpdated, 'HH:mm:ss')}">...</span>
+        </div>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+    <script>
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            loadRecentEvents();
+            updateSystemStatus();
+            startAutoRefresh();
+        });
+    </script>
+</body>
+</html>

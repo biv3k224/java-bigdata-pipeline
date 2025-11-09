@@ -30,8 +30,14 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<spark.version>3.5.0</spark.version>
+		<scala.version>2.12</scala.version>
 	</properties>
 	<dependencies>
+	<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -44,6 +50,67 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
+
+		<dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-core_${scala.version}</artifactId>
+        <version>${spark.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-sql_${scala.version}</artifactId>
+        <version>${spark.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-streaming_${scala.version}</artifactId>
+        <version>${spark.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-sql-kafka-0-10_${scala.version}</artifactId>
+        <version>${spark.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,6 +137,7 @@
 
 	<build>
 		<plugins>
+		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -96,7 +164,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-
-
 </project>

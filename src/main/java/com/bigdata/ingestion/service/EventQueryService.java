@@ -32,5 +32,15 @@ public class EventQueryService {
 	
 	public long getTotalEventCount() {
 		return eventRepository.count();
+		
+		
+	}
+	
+	public String deleteAllEvents() {
+        long countBefore = eventRepository.count();
+        eventRepository.deleteAll();
+        long countAfter = eventRepository.count();
+        
+        return "Deleted " + countBefore + " events. Remaining: " + countAfter;
 	}
 }
