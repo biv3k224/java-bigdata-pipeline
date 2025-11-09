@@ -1,7 +1,9 @@
 package com.bigdata.ingestion.controller;
 
 import com.bigdata.ingestion.model.EventData;
+import com.bigdata.ingestion.model.EventDocument;
 import com.bigdata.ingestion.service.EventProducerService;
+import com.bigdata.ingestion.service.EventQueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -18,6 +21,9 @@ public class EventIngestionController {
 
     @Autowired
     private EventProducerService eventProducerService;
+
+    @Autowired
+    private EventQueryService eventQueryService;  
 
     @PostMapping("/ingest")
     public ResponseEntity<Map<String, Object>> ingestEvent(@RequestBody EventData eventData) {
@@ -62,5 +68,51 @@ public class EventIngestionController {
         response.put("service", "data-ingestion-service");
         response.put("timestamp", LocalDateTime.now().toString());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<EventDocument>> getAllEvents() {
+        try {
+            List<EventDocument> events = eventQueryService.getAllEvents();
+            return ResponseEntity.ok(events);
+        } catch (Exception e) {
+            log.error("Error fetching events: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Map<String, Long>> getEventCount() {
+        try {
+            long count = eventQueryService.getTotalEventCount();
+            Map<String, Long> response = new HashMap<>();
+            response.put("count", count);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error counting events: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/source/{source}")
+    public ResponseEntity<List<EventDocument>> getEventsBySource(@PathVariable String source) {
+        try {
+            List<EventDocument> events = eventQueryService.getEventsBySource(source);
+            return ResponseEntity.ok(events);
+        } catch (Exception e) {
+            log.error("Error fetching events by source: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/type/{eventType}")
+    public ResponseEntity<List<EventDocument>> getEventsByType(@PathVariable String eventType) {
+        try {
+            List<EventDocument> events = eventQueryService.getEventsByType(eventType);
+            return ResponseEntity.ok(events);
+        } catch (Exception e) {
+            log.error("Error fetching events by type: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
