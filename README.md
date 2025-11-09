@@ -32,6 +32,11 @@ yaml
 Copy code
 
 ---
+## 📊 Live Demo
+Here’s a preview of the real-time dashboard in action:
+<img width="1440" height="857" alt="Screenshot 2025-11-09 at 1 49 17 PM" src="https://github.com/user-attachments/assets/6fe321f8-9903-495a-9d7a-dee156a058a7" />
+<img width="1440" height="859" alt="Screenshot 2025-11-09 at 1 49 44 PM" src="https://github.com/user-attachments/assets/4bd0c94e-d4c0-4680-8439-9c2ca0532939" />
+
 
 ## 💻 Run Locally
 
